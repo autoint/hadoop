@@ -43,3 +43,28 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+
+    - name: Get snapshot database
+      run: | 
+        /opt/hostedtoolcache/CodeQL/1.0.0/x64/codeql/codeql database bundle /home/runner/work/$REPOSITORY_NAME/codeql_databases/java -o ./$REPOSITORY_NAME-snapshot-java.zip --include-results
+        ls -al
+    #- name: Upload artifact
+    #  uses: actions/upload-artifact@v1.0.0
+    #  with:
+    #  # Artifact name
+    #    name: main
+    #    path: .
+      
+    - name: Upload Code Scanning Results
+      uses: actions/upload-artifact@v1.0.0
+      with:
+      # Artifact name
+        name: code_scanning
+        path: ../results
+    
+    - name: Upload CodeQL Database
+      uses: actions/upload-artifact@v1.0.0
+      with:
+      # Artifact name
+        name: Grab snapshot
+        path: $REPOSITORY_NAME-snapshot-java.zip
